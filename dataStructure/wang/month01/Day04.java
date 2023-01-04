@@ -3,6 +3,9 @@ package month01;
 
 import sun.reflect.generics.tree.Tree;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class Day04 {
     //=============================== 单词的压缩编码 ===================================
 
@@ -74,5 +77,75 @@ public class Day04 {
             this.len = -1;
         }
 
+    }
+
+    //========================================== TinyURL 的加密与解密 ==================================
+
+    /**
+     * TinyURL 是一种 URL 简化服务， 比如：当你输入一个 URL https://leetcode.com/problems/design-tinyurl 时，它将返回一个简化的URL http://tinyurl.com/4e9iAk 。请你设计一个类来加密与解密 TinyURL 。
+     * 加密和解密算法如何设计和运作是没有限制的，你只需要保证一个 URL 可以被加密成一个 TinyURL ，并且这个 TinyURL 可以用解密方法恢复成原本的 URL 。
+     * 实现 Solution 类：
+     * Solution() 初始化 TinyURL 系统对象。
+     * String encode(String longUrl) 返回 longUrl 对应的 TinyURL 。
+     * String decode(String shortUrl) 返回 shortUrl 原本的 URL 。题目数据保证给定的 shortUrl 是由同一个系统对象加密的。
+     */
+
+    /**
+     * 用于保存数据
+     */
+    private HashMap<String, String> map = new HashMap<>();
+
+    /**
+     * 编码
+     * @param longUrl
+     * @return
+     */
+    public String encode(String longUrl) {
+        UUID myUuid = UUID.randomUUID();
+        while (map.containsKey(myUuid.toString())) {
+            myUuid = UUID.randomUUID();
+        }
+        map.put(myUuid.toString(), longUrl);
+        return myUuid.toString();
+    }
+
+    /**
+     * 解码
+     * @param shortUrl
+     * @return
+     */
+    public String decode(String shortUrl) {
+        return map.get(shortUrl);
+    }
+
+    //======================================= 解码字母到整数映射 ======================================
+
+    /**
+     * 给你一个字符串  s，它由数字（'0' - '9'）和  '#'  组成。我们希望按下述规则将  s  映射为一些小写英文字符：
+     * 字符（'a' - 'i'）分别用（'1' -  '9'）表示。
+     * 字符（'j' - 'z'）分别用（'10#'  -  '26#'）表示。  
+     * 返回映射之后形成的新字符串。
+     * 题目数据保证映射始终唯一。
+     */
+    /**
+     * 从后到前进行处理即可（反向处理）
+     */
+    public String freqAlphabets(String s) {
+        /* 特殊情况处理 */
+        if (s == null || s.length() == 0) return "";
+        /* 获取映射后的内容 */
+        StringBuilder sb = new StringBuilder();
+        char[] chars = s.toCharArray();
+        for (int i = chars.length - 1; i >= 0 ; i--) {
+            char val = ' ';
+            if (chars[i] == '#') {
+                val = (char) ('a' + Integer.valueOf("" + chars[i - 2] + chars[i - 1]) - 1);
+                i -= 2;
+            } else {
+                val = (char) ('a' + chars[i] - '0' - 1);
+            }
+            sb.append(val);
+        }
+        return sb.reverse().toString();
     }
 }
