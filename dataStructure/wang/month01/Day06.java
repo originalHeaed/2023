@@ -1,8 +1,6 @@
 package month01;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Day06 {
     //=========================================== 序列化和反序列化二叉搜索树 ===============================================
@@ -73,12 +71,29 @@ public class Day06 {
 
     //=============================================== 验证二叉树的前序序列化 ==============================================
     /**
-     * 序列化二叉树的一种方法是使用 前序遍历 。
+     * 序列化二叉树的一种方法是使用前序遍历。
      * 当我们遇到一个非空节点时，我们可以记录下这个节点的值。如果它是一个空节点，我们可以使用一个标记值记录，例如 #。
      * 给定一串以逗号分隔的序列，验证它是否是正确的二叉树的前序序列化。编写一个在不重构树的条件下的可行算法。
-     * 保证 每个以逗号分隔的字符或为一个整数或为一个表示 null 指针的 '#' 。
+     * 保证 每个以逗号分隔的字符或为一个整数或为一个表示 null 指针的 '#'。
      */
     public boolean isValidSerialization(String preorder) {
-        return false;
+        /* 特殊情况处理 */
+        if (preorder == null || preorder.length() == 0) return false;
+        /* 使用栈完成 */
+        LinkedList<String> stack = new LinkedList<>();
+        String[] strArr = preorder.split(",", -1);
+        for (int i = 0; i < strArr.length; i++) {
+            stack.push(strArr[i]);
+            while (stack.size() >= 3
+                    && "#".equals(stack.get(0))
+                    && "#".equals(stack.get(1))
+                    && !"#".equals(stack.get(2))) {
+                stack.pop();
+                stack.pop();
+                stack.pop();
+                stack.push("#");
+            }
+        }
+        return stack.size() == 1 && "#".equals(stack.peek());
     }
 }
