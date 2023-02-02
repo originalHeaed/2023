@@ -1,20 +1,26 @@
 import org.example.Exception.BeansException;
 import org.example.config.BeanDefinition;
+import org.example.config.BeanReference;
+import org.example.config.PropertyValue;
+import org.example.config.PropertyValues;
 import org.example.support.DefaultListableBeanFactory;
 import org.junit.Test;
 
 public class BeanWrapperTest {
     @Test
     public void test() throws BeansException {
-        String name = "service";
-        /* 创建容器 */
+        /* 1.创建容器 */
         DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
-        /* 向容器中注册 beandefinition */
-        defaultListableBeanFactory.registerBeanDefinition(name, new BeanDefinition(Service.class));
-        /* 从容器中获取 beandefinition 代表类的实例对象 */
-        ((Service) defaultListableBeanFactory.getBean(name)).test();
-        ((Service) defaultListableBeanFactory.getBean(name, "ds")).test();
-        /* 再次获取（验证是单例模式） */
-        System.out.println(defaultListableBeanFactory.getBean(name, "ds") == defaultListableBeanFactory.getBean(name, "ds"));
+        /* 2.向容器中注册 beandefinition */
+        // 向 ioc 容器中注入 dao class
+        defaultListableBeanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+        // 向 ioc 容器中注入 service class
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("userId", 1));
+        propertyValues.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
+        defaultListableBeanFactory.registerBeanDefinition("userService", new BeanDefinition(UserService.class, propertyValues));
+        /* 3.从容器中获取 bean 实例 */
+        UserService userService = (UserService) defaultListableBeanFactory.getBean("userService");
+        userService.queryUserInfo();
     }
 }
