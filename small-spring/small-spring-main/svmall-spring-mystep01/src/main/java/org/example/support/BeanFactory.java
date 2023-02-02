@@ -11,5 +11,15 @@ public interface BeanFactory {
      * @param beanName
      * @return
      */
+    Object getBean(String beanName, Object... args) throws BeansException;
+
+    /**
+     * 仅支持获取无参 bean 实例
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
+    @Deprecated
     Object getBean(String beanName) throws BeansException;
+
 }
