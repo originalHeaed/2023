@@ -9,6 +9,11 @@ import java.net.URL;
  * 默认资源加载器
  */
 public class DefaultResourceLoader implements ResourceLoader{
+    /**
+     * Pseudo URL prefix for loading from the class path: "classpath:"
+     */
+    String CLASSPATH_URL_PREFIX = "classpath:";
+
     @Override
     public Resource getResource(String location) {
         Assert.notNull(location, "Location cannot be null");
