@@ -9,6 +9,7 @@ import org.example.io.DefaultResourceLoader;
 import org.example.io.Resource;
 import org.example.io.ResourceLoader;
 import org.example.support.DefaultListableBeanFactory;
+import org.example.support.reader.XmlBeanDefinitionReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,9 +41,28 @@ public class BeanWrapperTest {
         System.out.println(IoUtil.readUtf8(resource.getInputStream()));
     }
 
-    public void testUrlPath() {
-        Resource resource = defaultResourceLoader.getResource("E:\\个人学习\\2023\\small-spring\\small-spring-main\\svmall-spring-mystep01\\src\\test\\resources\\important.properties");
+    /**
+     * 测试从网络加载资源
+     */
+    @Test
+    public void testUrlPath() throws IOException {
+        Resource resource = defaultResourceLoader.getResource("https://github.com/originalHeaed/2023/blob/main/small-spring/small-spring-main/svmall-spring-mystep01/src/test/resources/important.properties");
+        System.out.println(IoUtil.readUtf8(resource.getInputStream()));
+    }
 
+    /**
+     * 通过 xml 形式，自动将 class 注入 ioc 容器中
+     */
+    @Test
+    public void testAutoRegisterByXml() throws BeansException {
+        /* 存放 bean class、创建 bean 实例的工厂类 */
+        DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
+        /* 从 xml 中读取 beanDefinition 载入 BeanFactory 中 */
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(defaultListableBeanFactory, defaultResourceLoader);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+        /* 从 ioc 容器中获取 bean 实例 */
+        UserService userService = (UserService) defaultListableBeanFactory.getBean("userService");
+        userService.queryUserInfo();
     }
 
 

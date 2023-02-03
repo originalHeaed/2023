@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Assert;
 import org.example.io.DefaultResourceLoader;
 import org.example.io.ResourceLoader;
 import org.example.support.BeanDefinitionRegister;
-import org.example.support.reader.BeanDefinitionReader;
 
 /**
  * 抽象类
