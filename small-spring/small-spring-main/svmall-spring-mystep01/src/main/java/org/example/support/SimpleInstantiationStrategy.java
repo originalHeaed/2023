@@ -3,6 +3,9 @@ package org.example.support;
 import org.example.Exception.BeansException;
 import org.example.config.BeanDefinition;
 
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -22,4 +25,5 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy{
             throw new BeansException("Failed to instantiate[" + clazz.getName() + "]", e);
         }
     }
+
 }
