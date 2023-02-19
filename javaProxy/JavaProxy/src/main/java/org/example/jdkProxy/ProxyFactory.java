@@ -25,12 +25,19 @@ public class ProxyFactory {
     }
 
     /**
-     * 内部类，实现对 target 的增强
+     * 内部类，实现对 target 的增强（接口中所有被代理的方法都会调用该类的 invoke）
      */
     private static class EnhanceMethod<T> implements InvocationHandler {
 
+        /**
+         * 目标类实例
+         */
         private T target;
 
+        /**
+         * 构造统一代理方法时，需要传入目标类实例
+         * @param target
+         */
         public EnhanceMethod(T target) {
             Objects.requireNonNull(target);
             this.target = target;
