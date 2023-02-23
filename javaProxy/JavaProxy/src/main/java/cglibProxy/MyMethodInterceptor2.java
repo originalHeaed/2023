@@ -20,7 +20,7 @@ public class MyMethodInterceptor2 implements MethodInterceptor {
      */
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        System.out.println("对被拦截的方法2进行增强");
+        System.out.println("使用反射，对被拦截的方法2进行增强");
         Object invoke = methodProxy.invokeSuper(o, objects); /* 调用被拦截的方法 */
         return invoke;
     }

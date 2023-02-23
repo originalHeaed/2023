@@ -21,5 +21,6 @@ public class Test {
         TargetClass targetClass = (TargetClass) enhancer.create();
         targetClass.doSomething();
         targetClass.doSomething2();
+        targetClass.doSomething3();
     }
 }
