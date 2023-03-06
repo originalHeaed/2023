@@ -3,6 +3,7 @@ package month03;
 import sun.applet.Main;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -35,7 +36,7 @@ public class Day01 {
      * @param s
      * @return
      */
-    public boolean isRepeat(String s) {
+    public boolean repeatedSubstringPattern(String s) {
         /* 特殊情况处理 */
         if (s == null || s.length() == 1) return false;
         int n = s.length() / 2;
@@ -70,7 +71,11 @@ public class Day01 {
     }
 
     public static void main(String[] args) {
-        Day01 day01 = new Day01();
-        System.out.println(day01.isRepeat("aaaa"));
+        List<String> list = new LinkedList<>();
+        list.add("123");
+        List list2 = list;
+        list2.add(43);
+        Object o = list2.get(1);
+        System.out.println(o);
     }
 }
