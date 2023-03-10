@@ -544,9 +544,133 @@ public class Day10 {
         return stack.isEmpty();
     }
 
+    //======================================= 有重复字符串的排列组合 ================================================
+
+    /**
+     * 有重复字符串的排列组合。编写一种方法，计算某字符串的所有排列组合。
+     */
+    /**
+     * 使用递归完成该题
+     * @param S
+     * @return
+     */
+    public String[] permutation(String S) {
+        Set<String> res = new HashSet<>(); // 保存结果集
+        /* 获取所有排列组合 */
+        char[] chars = S.toCharArray();
+        boolean[] isVisited = new boolean[chars.length];
+        recurse("", isVisited, chars, res);
+        /* 将 set 转为 array */
+        String[] target = new String[res.size()];
+        int index = 0;
+        for (String s : res) target[index++] = s;
+        return target;
+    }
+
+    public void recurse(String order, boolean[] isVisited, char[] s, Set<String> res) {
+        /* 递归结束条件 */
+        if (order.length() == s.length) res.add(order);
+        /* 递归体 */
+        for (int i = 0; i < s.length; i++) {
+            if (!isVisited[i]) {
+                isVisited[i] = true;
+                recurse(order + s[i], isVisited, s, res);
+                isVisited[i] = false;
+            }
+        }
+    }
+
+
+    //=========================================== 最长连续递增序列 ==================================================
+
+    /**
+     * 给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度。
+     */
+    /**
+     * 使用双指针
+     * @param nums
+     * @return
+     */
+    public int findLengthOfLCIS(int[] nums) {
+        int r = 0;
+        int count = 1;
+        int res = 0;
+        while (r < nums.length) {
+            if ((r + 1) < nums.length && nums[r] < nums[r + 1]) {
+                count++;
+            }  else {
+                res = Math.max(res, count);
+                count = 1;
+            }
+            r++;
+        }
+        return res;
+    }
+
+    //============================================ 称砝码 ============================================
+    /**
+     * 现有n种砝码，重量互不相等，分别为 m1,m2,m3…mn ；
+     * 每种砝码对应的数量为 x1,x2,x3...xn 。现在要用这些砝码去称物体的重量(放在同一侧)，问能称出多少种不同的重量。
+     */
+    public static void helper5() {
+        /* 获取输入 */
+        Scanner scanner = new Scanner(System.in);
+        int total = scanner.nextInt();
+        int[][] tem = new int[total][2];
+        for (int i = 0; i < total; i++) {
+            tem[i][0] = scanner.nextInt();
+        }
+        int allEleNum = 0;
+        for (int i = 0; i < total; i++) {
+            tem[i][1] = scanner.nextInt();
+            allEleNum += tem[i][1];
+        }
+        int[] data = new int[allEleNum];
+        int index = 0;
+        for (int i = 0; i < total; i++) {
+            for (int j = 0; j < tem[i][1]; j++) {
+                data[index++] = tem[i][0];
+            }
+        }
+        /* 处理数据（使用两个 set 为了防止集合的 fail-fast） */
+        Set<Integer> first = new HashSet<>();
+        Set<Integer> sec = new HashSet<>();
+        for (int val : data) {
+            for (int v : first) {
+                sec.add(v);
+                sec.add(v + val);
+            }
+            sec.add(val);
+            first = sec;
+            sec = new HashSet<>();
+        }
+        first.add(0);
+        System.out.println(first.size());
+    }
+
+    public static void recurse2(int[] val) {
+    }
+
 
 
     public static void main(String[] args) {
+        /* 获取输入 */
+        Scanner scanner = new Scanner(System.in);
+        int[] data = new int[]{1, 1, 2};
+        /* 处理数据 */
+        Set<Integer> first = new HashSet<>();
+        Set<Integer> sec = new HashSet<>();
+        for (int val : data) {
+            for (int total : first) {
+                sec.add(total);
+                sec.add(total + val);
+            }
+            sec.add(val);
+            first = sec;
+            sec = new HashSet<>();
+        }
+        first.add(0);
+        System.out.println(first.size());
     }
 
 }
