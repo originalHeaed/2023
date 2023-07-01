@@ -1,4 +1,4 @@
-package org.example.support.reader;
+package org.example.support.reader.support;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
@@ -8,7 +8,8 @@ import org.example.config.BeanReference;
 import org.example.config.PropertyValue;
 import org.example.io.Resource;
 import org.example.io.ResourceLoader;
-import org.example.support.BeanDefinitionRegister;
+import org.example.support.reader.support.AbstractBeanDefinitionReader;
+import org.example.support.register.BeanDefinitionRegister;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

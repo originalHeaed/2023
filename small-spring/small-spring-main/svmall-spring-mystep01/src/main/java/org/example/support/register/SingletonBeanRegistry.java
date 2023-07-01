@@ -1,4 +1,4 @@
-package org.example.support;
+package org.example.support.register;
 
 /**
  * 单例 BeanFactory

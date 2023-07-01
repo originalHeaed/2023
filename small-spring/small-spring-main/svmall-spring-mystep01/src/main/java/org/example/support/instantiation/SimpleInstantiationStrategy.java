@@ -1,21 +1,19 @@
-package org.example.support;
+package org.example.support.instantiation;
 
 import org.example.Exception.BeansException;
 import org.example.config.BeanDefinition;
+import org.example.support.instantiation.InstantiationStrategy;
 
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * 使用 JDK 反射实现 bean 对象的实例化
  */
-public class SimpleInstantiationStrategy implements InstantiationStrategy{
+public class SimpleInstantiationStrategy implements InstantiationStrategy {
     @Override
     public Object instantiate(BeanDefinition beanDefinition, Constructor ctor, Object[] args) throws BeansException {
-        Class clazz = beanDefinition.getBean();
+        Class clazz = beanDefinition.getBeanClass();
         try {
             /* 如果参数长度为 0，或者构造函数不存在：使用无参构造函数构建对象 */
             if (args == null || args.length == 0 || ctor == null) return clazz.newInstance();

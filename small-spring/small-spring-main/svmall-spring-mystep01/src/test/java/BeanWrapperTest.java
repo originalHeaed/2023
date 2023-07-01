@@ -4,12 +4,11 @@ import org.example.config.BeanDefinition;
 import org.example.config.BeanReference;
 import org.example.config.PropertyValue;
 import org.example.config.PropertyValues;
-import org.example.io.ClassPathResource;
 import org.example.io.DefaultResourceLoader;
 import org.example.io.Resource;
 import org.example.io.ResourceLoader;
 import org.example.support.DefaultListableBeanFactory;
-import org.example.support.reader.XmlBeanDefinitionReader;
+import org.example.support.reader.support.XmlBeanDefinitionReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,16 +77,14 @@ public class BeanWrapperTest {
         DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
         /* 2.向容器中注册 beandefinition */
         // 向 ioc 容器中注入 dao class
-        defaultListableBeanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+        defaultListableBeanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));// 注册进入 map 中
         // 向 ioc 容器中注入 service class
         PropertyValues propertyValues = new PropertyValues();
         propertyValues.addPropertyValue(new PropertyValue("userId", 1));
         propertyValues.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
-        defaultListableBeanFactory.registerBeanDefinition("userService", new BeanDefinition(UserService.class, propertyValues));
+        defaultListableBeanFactory.registerBeanDefinition("userService", new BeanDefinition(UserService.class, propertyValues));// 注册进入 map 中
         /* 3.从容器中获取 bean 实例 */
-        UserService userService = (UserService) defaultListableBeanFactory.getBean("userService");
+        UserService userService = (UserService) defaultListableBeanFactory.getBean("userService");// 调用实例化方式
         userService.queryUserInfo();
-
-
     }
 }

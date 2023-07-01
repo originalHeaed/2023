@@ -1,18 +1,17 @@
-package org.example.support;
+package org.example.support.instantiation;
 
 import cn.hutool.core.bean.BeanUtil;
 import org.example.Exception.BeansException;
 import org.example.config.BeanDefinition;
 import org.example.config.BeanReference;
 import org.example.config.PropertyValue;
-import org.example.config.PropertyValues;
 
 import java.lang.reflect.Constructor;
 
 /**
  * 提供抽象自动装配的 BeanFactory
  */
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
     /**
      * bean 对象实例化的策略（默认使用 JDK 反射进行实例化）
      */
@@ -43,8 +42,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         /* 特殊情况判断(直接使用无参） */
         if (args == null || args.length == 0) return getInstantiationStrategy().instantiate(beanDefinition, null, null);
         /* 根据入参 args 获取构造函数 */
-        Constructor[] declaredConstructor = beanDefinition.getBean().getDeclaredConstructors();
+        Constructor[] declaredConstructor = beanDefinition.getBeanClass().getDeclaredConstructors();
         for (Constructor ctor: declaredConstructor) {
+            /* todo: 这里的判断有问题，不能仅仅使用参数长度来进行判断 */
             if (ctor.getParameterTypes().length == args.length) {
                 return getInstantiationStrategy().instantiate(beanDefinition, ctor, args);
             }

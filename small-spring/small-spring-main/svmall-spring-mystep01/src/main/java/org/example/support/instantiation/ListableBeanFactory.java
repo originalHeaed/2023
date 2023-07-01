@@ -1,6 +1,6 @@
-package cn.bugstack.springframework.beans.factory;
+package org.example.support.instantiation;
 
-import cn.bugstack.springframework.beans.BeansException;
+import org.example.Exception.BeansException;
 
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import java.util.Map;
  * by name one by one as requested by clients. BeanFactory implementations that
  * preload all their bean definitions (such as XML-based factories) may implement
  * this interface.
- * <p>
  */
 public interface ListableBeanFactory extends BeanFactory{
 

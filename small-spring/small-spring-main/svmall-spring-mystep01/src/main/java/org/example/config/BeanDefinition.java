@@ -21,6 +21,7 @@ public class BeanDefinition {
     public BeanDefinition(Class bean, PropertyValues propertyValues) {
         this.bean = bean;
         if (propertyValues != null) this.propertyValues = propertyValues;
+        else this.propertyValues = new PropertyValues();
     }
 
     /**
@@ -28,14 +29,23 @@ public class BeanDefinition {
      * @param bean
      */
     public BeanDefinition(Class bean) {
-        this.bean = bean;
+        this(bean, null);
     }
 
-    public Class getBean() {
+    public Class getBeanClass() {
         return bean;
+    }
+
+    public void setBeanClass(Class beanClass) {
+        this.bean = beanClass;
     }
 
     public PropertyValues getPropertyValues() {
         return propertyValues;
     }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
+    }
+
 }

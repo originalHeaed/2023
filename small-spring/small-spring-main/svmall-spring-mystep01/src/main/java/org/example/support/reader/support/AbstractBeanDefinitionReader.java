@@ -1,9 +1,10 @@
-package org.example.support.reader;
+package org.example.support.reader.support;
 
 import cn.hutool.core.lang.Assert;
 import org.example.io.DefaultResourceLoader;
 import org.example.io.ResourceLoader;
-import org.example.support.BeanDefinitionRegister;
+import org.example.support.reader.BeanDefinitionReader;
+import org.example.support.register.BeanDefinitionRegister;
 
 /**
  * 抽象类

@@ -1,4 +1,6 @@
-package org.example.support;
+package org.example.support.register;
+
+import org.example.support.register.SingletonBeanRegistry;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -6,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 默认单例 bean 注册抽象类
  */
-public abstract class AbstractDefaultSingletonBeanRegister implements SingletonBeanRegistry{
+public abstract class AbstractDefaultSingletonBeanRegister implements SingletonBeanRegistry {
     /**
      * 存放单例的 bean 容器
      */

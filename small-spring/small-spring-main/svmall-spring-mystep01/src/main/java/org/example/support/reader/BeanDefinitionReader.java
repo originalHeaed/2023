@@ -4,7 +4,7 @@ import org.example.Exception.BeansException;
 import org.example.io.Resource;
 
 /**
- * 定义注册 beanDefinition 的行为
+ * 从外部资源中读取 bean ，并且注册 beanDefinition
  */
 public interface BeanDefinitionReader {
     /**
