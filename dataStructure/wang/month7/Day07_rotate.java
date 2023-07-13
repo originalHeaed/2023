@@ -102,5 +102,16 @@ public class Day07_rotate {
         }
     }
 
-
+    /**
+     * 原地修改，时间复杂度：O（n），空间复杂度：O（1）
+     * @param nums
+     * @param k
+     */
+    public void rotate5(int[] nums, int k) {
+        /* 特殊情况处理 */
+        if (nums == null || nums.length == 0 || (k % nums.length) == 0) {
+            return;
+        }
+        /* 开始进行挪动 */
+    }
 }
