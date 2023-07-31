@@ -13,7 +13,7 @@ public class Day25_romanToInt {
     /**
      * 每个罗马数字对应的阿拉伯数字
      */
-    Map<Character, Integer> helper = new HashMap<>(){{
+    Map<Character, Integer> helper = new HashMap<Character, Integer>(){{
         put('I', 1);
         put('V', 5);
         put('X', 10);

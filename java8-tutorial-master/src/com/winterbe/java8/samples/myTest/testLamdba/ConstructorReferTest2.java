@@ -35,6 +35,6 @@ public class ConstructorReferTest2 {
         /**
          * 这里会报错，因为函数式接口的抽象方法入参和 Person 构造方法入参个数和类型不一致
          */
-        ICreatePerson createPerson = Person::new;
+//        ICreatePerson createPerson = Person::new;
     }
 }
