@@ -1,4 +1,4 @@
-package com.winterbe.java8.samples.myTest;
+package com.winterbe.java8.samples.myTest.Optional;
 
 import java.util.Optional;
 
