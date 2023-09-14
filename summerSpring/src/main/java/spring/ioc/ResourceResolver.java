@@ -4,18 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.util.*;
 import java.util.function.Function;
 
 public class ResourceResolver {
@@ -28,10 +25,51 @@ public class ResourceResolver {
         this.basePackage = basePackage;
     }
 
+    /**
+     * 从 basePackage 加载指定的资源，加载资源的规则由 mapper 定制
+     * @param mapper 需要资源的规则
+     * @return 资源对象
+     * @param <R>
+     */
     public <R> List<R> scan(Function<Resource, R> mapper) {
-        return new LinkedList<>();
+        String basePackagePath = this.basePackage.replace(".", "/");
+        String path = basePackagePath;
+        try {
+            List<R> collector = new ArrayList<>();
+            scan0(basePackagePath, path, collector, mapper);
+            return collector;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    /**
+     * 使用指定的类加载器从 path 下加载所有资源，然后判断该资源是否符合 mapper 的过滤要求，如果是则将保留该资源，否则舍弃
+     */
+    private <R> void scan0(String basePackagePath, String path, List<R> collector, Function<Resource, R> mapper) throws URISyntaxException, IOException {
+        logger.atDebug().log("scan path:{}", path);
+        Enumeration<URL> en = getContextClassLoader().getResources(path);
+        while (en.hasMoreElements()) {
+            URL url = en.nextElement();
+            URI uri = url.toURI();
+            String uriStr = removeTrailingSlash(uriToString(uri));
+            String uriBaseStr = uriStr.substring(0, uriStr.length() - basePackagePath.length());
+            if (uriBaseStr.startsWith("file:")) {
+                uriBaseStr = uriBaseStr.substring(5);
+            }
+            if (uriStr.startsWith("jar:")) {
+                scanFile(true, uriBaseStr, jarUriToPath(basePackagePath, uri), collector, mapper);
+            } else {
+                scanFile(false, uriBaseStr, Paths.get(uri), collector, mapper);
+            }
+        }
+    }
+
+    /**
+     * 扫描指定路径下的所有文件，然后将符合要求的加入到 collector 中
+     */
     private <R> void scanFile(boolean isJar, String base, Path root, List<R> collector, Function<Resource, R> mapper) throws IOException {
         String baseDir = removeTrailingSlash(base);
         /**
