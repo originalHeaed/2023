@@ -22,7 +22,16 @@ public class PropertyResolver {
     public PropertyResolver(Properties props) {
         /* `Returns` an unmodifiable string map view of the current system environment. */
         map.putAll(System.getenv());
-        Set<String> strings = props.stringPropertyNames();
+        /* 将配置文件中 key-value 加入到 map 中 */
+        props.stringPropertyNames().stream().forEach(ele -> {
+            map.put(ele, props.getProperty(ele));
+        });
+        if (logger.isDebugEnabled()) {
+            map.keySet().stream().forEach(ele -> {
+                logger.debug("PropertyResolver: {} = {}", ele, map.get(ele));
+            });
+        }
+
     }
 
     /**
